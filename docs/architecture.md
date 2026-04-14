@@ -231,6 +231,140 @@ directionai-agent-backend/
 └─ examples/
 ```
 
+### 5.1 完整项目目录树
+
+如果后续要让别人只根据文档开始重构，优先以这里的目录树为准。
+
+```text
+directionai-agent-backend/
+├─ README.md
+├─ Install.md
+├─ Makefile
+├─ config.example.yaml
+├─ docs/
+│  ├─ README.md
+│  ├─ requirements.md
+│  ├─ architecture.md
+│  ├─ engineering.md
+│  └─ bug-policy.md
+├─ backend/
+│  ├─ app/
+│  │  └─ gateway/
+│  │     └─ routers/
+│  │        ├─ compatibility_router.py
+│  │        ├─ lesson_router.py
+│  │        ├─ exam_router.py
+│  │        └─ ppt_router.py
+│  ├─ packages/
+│  │  ├─ harness/
+│  │  │  └─ deerflow/
+│  │  │     ├─ agents/
+│  │  │     ├─ community/
+│  │  │     ├─ config/
+│  │  │     ├─ guardrails/
+│  │  │     ├─ mcp/
+│  │  │     ├─ models/
+│  │  │     ├─ reflection/
+│  │  │     ├─ runtime/
+│  │  │     ├─ sandbox/
+│  │  │     ├─ skills/
+│  │  │     ├─ subagents/
+│  │  │     ├─ tools/
+│  │  │     ├─ tracing/
+│  │  │     ├─ uploads/
+│  │  │     └─ utils/
+│  │  └─ directionai/
+│  │     ├─ compat/
+│  │     ├─ lesson/
+│  │     ├─ exam/
+│  │     ├─ ppt/
+│  │     ├─ schemas/
+│  │     ├─ tools/
+│  │     ├─ storage/
+│  │     ├─ telemetry/
+│  │     └─ workflows/
+│  ├─ tests/
+│  │  ├─ contracts/
+│  │  ├─ integration/
+│  │  ├─ regression/
+│  │  └─ directionai/
+│  ├─ pyproject.toml
+│  └─ langgraph.json
+├─ frontend/
+├─ skills/
+│  ├─ public/
+│  └─ directionai/
+├─ scripts/
+├─ docker/
+└─ examples/
+```
+
+### 5.2 目录树使用规则
+
+这棵目录树的使用方式要固定下来：
+
+- `backend/packages/harness/deerflow/` 是上游核心区，优先少改
+- `backend/packages/directionai/` 是主开发区，教案、试卷、PPT 的领域逻辑主要放这里
+- `backend/app/gateway/routers/` 只放 API、SSE、兼容入口
+- `backend/tests/contracts/` 放前端兼容、SSE、tool/skill contract 测试
+- `backend/tests/integration/` 放模块协作测试
+- `backend/tests/regression/` 放复杂 bug 回归
+- `skills/directionai/` 放 DirectionAI 自有 skill 资产
+- `examples/` 放请求样例、结果样例、联调用例
+
+### 5.3 最小实现文件建议
+
+为了让别人拿着文档就能开始落代码，建议优先补齐下面这些文件：
+
+```text
+backend/app/gateway/routers/
+├─ compatibility_router.py
+├─ lesson_router.py
+├─ exam_router.py
+└─ ppt_router.py
+
+backend/packages/directionai/compat/
+├─ legacy_request_mapper.py
+├─ legacy_response_mapper.py
+└─ sse_event_mapper.py
+
+backend/packages/directionai/lesson/
+├─ lesson_schemas.py
+├─ lesson_agents.py
+├─ lesson_workflow.py
+├─ lesson_service.py
+└─ lesson_artifact_builder.py
+
+backend/packages/directionai/exam/
+├─ exam_schemas.py
+├─ exam_agents.py
+├─ exam_workflow.py
+├─ exam_service.py
+└─ exam_artifact_builder.py
+
+backend/packages/directionai/ppt/
+├─ ppt_schemas.py
+├─ ppt_request_builder.py
+├─ ppt_subsystem_adapter.py
+├─ ppt_result_mapper.py
+└─ ppt_trace_service.py
+
+backend/packages/directionai/schemas/
+├─ task_specs.py
+├─ artifacts.py
+├─ tool_result.py
+└─ states.py
+
+backend/packages/directionai/tools/
+├─ rag_tool.py
+├─ document_parser_tool.py
+├─ lesson_export_tool.py
+├─ exam_validation_tool.py
+└─ ppt_bridge_tool.py
+```
+
+这不是死规定，但如果偏离太远，团队后续理解和维护成本会明显升高。
+
 ## 6. 当前仓库中的代码边界规则
 
 ### 6.1 DeerFlow 上游区

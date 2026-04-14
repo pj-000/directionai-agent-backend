@@ -54,7 +54,20 @@ directionai-agent-backend/
 └─ examples/
 ```
 
-### 2.1 `backend/app/gateway/routers/`
+### 2.1 项目目录树在哪个文档里
+
+如果你或其他同学要找“完整项目目录树”，统一看：
+
+- `docs/architecture.md`
+  重点看“5.1 完整项目目录树”
+
+这份 `engineering.md` 主要回答的是：
+
+- 每个目录该放什么
+- 不该放什么
+- 分层依赖怎么控制
+- 测试和代码规范怎么执行
+### 2.2 `backend/app/gateway/routers/`
 
 适合放：
 
@@ -69,7 +82,7 @@ directionai-agent-backend/
 - 模型调用细节
 - 大段 Prompt 组装逻辑
 
-### 2.2 `backend/packages/harness/deerflow/`
+### 2.3 `backend/packages/harness/deerflow/`
 
 适合放：
 
@@ -82,7 +95,7 @@ directionai-agent-backend/
 - 针对旧前端的兼容补丁
 - 教案、试卷、PPT 的领域特化逻辑
 
-### 2.3 `backend/packages/directionai/`
+### 2.4 `backend/packages/directionai/`
 
 适合放：
 
@@ -100,7 +113,7 @@ directionai-agent-backend/
 - 外部 API 适配代码
 - 复杂业务 if/else
 
-### 2.4 `backend/packages/directionai/compat/`
+### 2.5 `backend/packages/directionai/compat/`
 
 适合放：
 
@@ -114,7 +127,7 @@ directionai-agent-backend/
 - 复杂格式解析
 - 大量 schema 兼容补丁
 
-### 2.5 `backend/packages/directionai/lesson/`
+### 2.6 `backend/packages/directionai/lesson/`
 
 适合放：
 
@@ -124,7 +137,7 @@ directionai-agent-backend/
 - 教案 artifact 组装
 - reviewer / repair 逻辑
 
-### 2.6 `backend/packages/directionai/exam/`
+### 2.7 `backend/packages/directionai/exam/`
 
 适合放：
 
@@ -133,7 +146,7 @@ directionai-agent-backend/
 - 去重与 checker
 - paper assembler
 
-### 2.7 `backend/packages/directionai/ppt/`
+### 2.8 `backend/packages/directionai/ppt/`
 
 适合放：
 
@@ -142,7 +155,7 @@ directionai-agent-backend/
 - `directionai_pptagent` 迁入后的运行时封装
 - preview / download / trace mapping
 
-### 2.8 `backend/packages/directionai/schemas/`
+### 2.9 `backend/packages/directionai/schemas/`
 
 适合放：
 
@@ -153,7 +166,7 @@ directionai-agent-backend/
 - State
 - ToolResult
 
-### 2.9 `backend/packages/directionai/tools/`
+### 2.10 `backend/packages/directionai/tools/`
 
 适合放：
 
@@ -163,7 +176,7 @@ directionai-agent-backend/
 - 评分 / 校验
 - 领域工具包装
 
-### 2.10 `backend/packages/directionai/storage/`
+### 2.11 `backend/packages/directionai/storage/`
 
 适合放：
 
@@ -172,7 +185,7 @@ directionai-agent-backend/
 - runtime memory 包装
 - vector store 包装
 
-### 2.11 `backend/packages/directionai/telemetry/`
+### 2.12 `backend/packages/directionai/telemetry/`
 
 适合放：
 
@@ -180,7 +193,7 @@ directionai-agent-backend/
 - run trace
 - metrics
 
-### 2.12 `skills/directionai/`
+### 2.13 `skills/directionai/`
 
 适合放：
 
@@ -188,7 +201,7 @@ directionai-agent-backend/
 - lesson / exam / ppt skill
 - bug classify / doc update skill
 
-### 2.13 `backend/tests/`
+### 2.14 `backend/tests/`
 
 建议继续保留 DeerFlow 原有测试，同时新增：
 
