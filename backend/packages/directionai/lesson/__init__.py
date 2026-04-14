@@ -1,0 +1,1 @@
+"""Lesson plan domain logic."""
