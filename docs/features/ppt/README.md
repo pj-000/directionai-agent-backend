@@ -27,6 +27,13 @@
 
 定义 PPT 子系统整合的实施顺序、质量门槛和回归要求。
 
-## 一句话定位
+## Sub-Agent 结论
 
 PPT 链不是一个简单的“prompt 输出 markdown”问题，而是一个带渲染、预览、修复和质量闭环的专用子系统接入问题。
+
+因此这条链要明确：
+
+- DeerFlow 可以参与编排
+- 但核心 PPT 生成不依赖 DeerFlow 动态孵化 subagent
+- 运行时不为每次请求现造新的 PPT 页面角色或排版角色
+- 主要复用 `directionai_pptagent` 的专用 runtime 和 tools

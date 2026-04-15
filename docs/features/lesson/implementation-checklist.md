@@ -53,8 +53,11 @@
 
 完成标准：
 
+- 固定角色模板注册完成
+- workflow 只实例化既有模板
 - planner / grounder / pedagogy / activity / reviewer 流转可运行
 - 产物不是纯自由文本
+- 不存在“每次请求现造新 lesson 角色”的路径
 
 ## 6. 第四阶段：接知识增强
 

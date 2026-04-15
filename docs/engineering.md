@@ -222,7 +222,30 @@ directionai-agent-backend/
 - `schemas` 可以被各层引用，但 schema 层不依赖业务实现
 - `telemetry` 可以被各层调用，但不反向依赖业务层
 
-### 3.1 禁止事项
+### 3.1 DeerFlow Sub-Agent 编码规则
+
+后续代码实现必须严格区分“固定模板实例化”和“每次请求生成新角色定义”。
+
+允许的做法：
+
+- 教案链使用固定角色模板库，再由 workflow 决定本次是否启用 `KnowledgeGrounder`、`ActivityDesigner` 等实例
+- 试卷链使用固定题型模板库，再由 workflow 按题型数量 fan-out 多个同模板实例
+- repair 阶段只允许基于既有角色模板再实例化修复实例
+
+禁止的做法：
+
+- 根据用户输入临时拼 prompt，现场生成一个新的 lesson 角色体系
+- 根据一次试卷需求现场发明新的题型角色或新的 checker 角色名
+- 让 DeerFlow 主 Agent 直接为 PPT 生成页面写手、排版师、修图师等自由角色
+- 把角色定义藏在运行时字符串里，导致无法测试和复用
+
+代码落地要求：
+
+- 固定角色模板统一放在 `backend/packages/directionai/lesson/lesson_agents.py` 和 `backend/packages/directionai/exam/exam_agents.py`
+- 运行时实例化策略统一放在对应 `*_workflow.py`
+- PPT 目录只允许出现适配器和子系统接入代码，不允许把核心 PPT 渲染改写成 DeerFlow 通用 subagent 流
+
+### 3.2 禁止事项
 
 - `api` 直接写业务生成逻辑
 - `api` 直接调用底层模型 SDK

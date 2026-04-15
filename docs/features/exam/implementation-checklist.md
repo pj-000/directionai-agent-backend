@@ -37,6 +37,12 @@
 - 各题型 generator
 - assembler
 
+完成标准：
+
+- 固定题型模板注册完成
+- fan-out 只实例化既有模板
+- 不存在按单次请求现场定义新题型角色的路径
+
 ## 5. 第四阶段：checker / dedup
 
 实现：
@@ -61,6 +67,8 @@
 - 重复题检测
 - `thinking_chunk` JSON 路由
 - `done` 兼容字段
+- 同一题型多实例 fan-out
+- repair 只复用既有模板
 
 ## 7. DoD
 

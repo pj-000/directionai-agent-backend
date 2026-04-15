@@ -81,6 +81,28 @@
 
 但正式重构、多人协作、长期维护，仍建议落到新仓库。
 
+### 2.5 DeerFlow Sub-Agent 总体策略
+
+这次重构不会把三条链都机械地改造成“主 Agent 每次自由生成一堆新 subagent”。
+
+必须把三种情况区分清楚：
+
+1. 使用 DeerFlow subagent，但角色模板固定
+2. 使用 DeerFlow subagent，并且运行时只决定要不要实例化、实例化几个
+3. 不使用 DeerFlow 生成 subagent，只把 DeerFlow 当编排层
+
+当前约定如下：
+
+| 功能 | 是否使用 DeerFlow 生成 subagent | 每次是否生成全新角色定义 | 实际策略 |
+| --- | --- | --- | --- |
+| 教案 | 使用 | 否 | 只从固定模板库里实例化 `CurriculumPlanner`、`KnowledgeGrounder`、`PedagogyDesigner`、`ActivityDesigner`、`LessonReviewer` 这类角色 |
+| 试卷 | 使用 | 否 | 只从固定题型模板库里实例化 blueprint、题型 generator、checker、dedup、assembler，运行时决定启用哪些以及每类开几个 |
+| PPT | 不使用 DeerFlow 生成 subagent 作为核心实现 | 否 | DeerFlow 只负责编排和上下文整理，核心生成仍交给 `directionai_pptagent` 专用子系统 |
+
+这个约束必须长期成立。
+
+不允许后续为了“更像 Agent”而把 PPT 改成自由生成页面角色，也不允许把教案和试卷改成每次请求都临时设计一套新角色定义。
+
 ## 3. 当前代码资产盘点与取舍
 
 ### 3.1 `evoagentx/`
@@ -246,7 +268,12 @@ directionai-agent-backend/
 │  ├─ requirements.md
 │  ├─ architecture.md
 │  ├─ engineering.md
-│  └─ bug-policy.md
+│  ├─ bug-policy.md
+│  └─ features/
+│     ├─ README.md
+│     ├─ lesson/
+│     ├─ exam/
+│     └─ ppt/
 ├─ backend/
 │  ├─ app/
 │  │  └─ gateway/
@@ -311,6 +338,7 @@ directionai-agent-backend/
 - `backend/tests/regression/` 放复杂 bug 回归
 - `skills/directionai/` 放 DirectionAI 自有 skill 资产
 - `examples/` 放请求样例、结果样例、联调用例
+- `docs/features/` 放功能级详细设计，是教案、试卷、PPT 重构时的直接实施依据
 
 ### 5.3 最小实现文件建议
 

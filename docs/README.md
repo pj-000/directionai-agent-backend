@@ -13,7 +13,7 @@
 - 把教案、试卷、PPT 重新组织成新的后端
 - 修 bug 时判断该先改文档还是先改代码
 
-都应优先以这 4 份主文档为准，而不是回到旧实现里重新猜业务边界。
+都应优先以这套文档为准，而不是回到旧实现里重新猜业务边界。
 
 ## 先给结论
 
@@ -25,24 +25,7 @@
 4. PPT 不在 DeerFlow 内重新自由生成，而是迁入并复用 `/Users/sss/directionai/directionai_pptagent` 的成熟子系统能力
 5. 通过 Compatibility API 对接 `/Users/sss/directionai/DirectionAICloud` 里的现有前端和旧主系统
 
-这个决策的原因是：
-
-- 当前仓库模块太多，包含前端、Java 主后端、Go 用户服务、Remotion、Nginx、监控、数据库初始化等，AI 后端重构会被非 AI 模块噪声干扰
-- 这次重构不仅是代码迁移，而是一次架构范式升级，从“手写流程 + Prompt 拼接”转向“agent orchestration + skill/tool contracts + artifact first”
-- 需要保留现有前端行为稳定。如果直接在当前仓库重构，很容易把联调层、兼容层和核心 AI 逻辑搅在一起
-- PPT 子系统已经在外部独立仓库形成了更成熟的 harness 结构，适合直接作为这个新仓库里的专用模块基线
-
 ## 文档列表
-
-### [claude-review-context.md](./claude-review-context.md)
-
-这是一份给 Claude 或其他后续参与者看的“单文档交接摘要”。
-
-适合在以下场景先读：
-
-- 希望快速理解这次对话里最终确定的重构目标
-- 希望把项目背景、重构路线、前端兼容要求、仓库策略一次性交给另一个模型
-- 希望让别人先看一份总文档，再进入 4 份主文档
 
 ### [features/README.md](./features/README.md)
 
@@ -59,6 +42,12 @@
 - [features/lesson](./features/lesson/README.md)
 - [features/exam](./features/exam/README.md)
 - [features/ppt](./features/ppt/README.md)
+
+这里也统一写明：
+
+- 哪些功能真正用到 DeerFlow 的 subagent 能力
+- 哪些功能不使用 DeerFlow 生成 subagent
+- 哪些功能虽然会实例化 subagent，但实例来自固定模板，而不是每次临时造新角色
 
 ### [requirements.md](./requirements.md)
 
@@ -94,6 +83,7 @@
 - Compatibility API、Agent、Tool、Skill、Artifact、Storage 的边界
 - 推荐的目录结构、依赖方向、运行方式和迁移顺序
 - DeerFlow 上游代码和 DirectionAI 自有代码的边界
+- 三条链的 DeerFlow subagent 使用策略
 
 如果你遇到的问题是：
 
@@ -116,13 +106,14 @@
 - 日志、trace、错误码、超时、重试规范
 - 测试分层与回归测试要求
 - 开发流程和提交流程
+- DeerFlow subagent 的编码规则
 
 如果你遇到的问题是：
 
 - 一个模块应该放在哪个目录
 - 怎么命名 schema / service / tool
-- 什么时候必须先补测试
-- prompt、skill、tool 的文件应该怎么放
+- 哪些链路允许 DeerFlow 运行时实例化 subagent
+- 哪些链路明确禁止这么做
 
 先看这份。
 
@@ -151,6 +142,7 @@
 2. `architecture.md`
 3. `engineering.md`
 4. `bug-policy.md`
+5. `features/README.md`
 
 ### 在新需求或行为调整出现时
 
@@ -184,8 +176,9 @@
 - 架构边界和目录结构只写进 `architecture.md`
 - 代码规范、测试规范和开发流程只写进 `engineering.md`
 - bug 分类和处理顺序只写进 `bug-policy.md`
+- 功能实现细节统一写进 `docs/features/`
 
-如果后续发现某个问题需要额外说明，优先把内容并入这 4 份主文档，而不是再平行创建一堆新文件。
+如果后续发现某个问题需要额外说明，优先把内容并入这些主文档或功能子文档，而不是再平行创建一堆新文件。
 
 ## 当前仓库与旧仓关系
 

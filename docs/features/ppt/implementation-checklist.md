@@ -34,6 +34,7 @@
 
 - 能调起成熟 PPT 子系统
 - 能拿到 preview / done / trace
+- DeerFlow 侧不存在页面级 subagent 自由孵化逻辑
 
 ## 4. 第三阶段：兼容路由
 
@@ -81,6 +82,7 @@
 - 检查导出可打开
 - 检查 preview 是否可用
 - 检查视觉质量是否明显退化
+- 检查实现中没有把核心 PPT 生成退化为 DeerFlow 通用 subagent 流
 
 ## 8. DoD
 
