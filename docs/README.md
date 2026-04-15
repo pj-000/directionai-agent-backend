@@ -34,6 +34,32 @@
 
 ## 文档列表
 
+### [claude-review-context.md](./claude-review-context.md)
+
+这是一份给 Claude 或其他后续参与者看的“单文档交接摘要”。
+
+适合在以下场景先读：
+
+- 希望快速理解这次对话里最终确定的重构目标
+- 希望把项目背景、重构路线、前端兼容要求、仓库策略一次性交给另一个模型
+- 希望让别人先看一份总文档，再进入 4 份主文档
+
+### [features/README.md](./features/README.md)
+
+这是三大功能链的子文档入口。
+
+适合在以下场景先读：
+
+- 你已经理解总体架构，准备真正开始拆某一条链
+- 你希望把教案、试卷、PPT 分开实施
+- 你希望直接按照领域文档落代码
+
+当前包含：
+
+- [features/lesson](./features/lesson/README.md)
+- [features/exam](./features/exam/README.md)
+- [features/ppt](./features/ppt/README.md)
+
 ### [requirements.md](./requirements.md)
 
 回答“系统应该做什么”。
